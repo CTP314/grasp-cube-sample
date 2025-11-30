@@ -6,7 +6,11 @@ This repository provides a reference implementation of an SO101 robot arm perfor
 > - **Motion Planning**: The current motion planning library is not compatible with other platforms. You may need to replace parts of the code with a motion planning library that supports your OS.
 > - **RL Parallelism**: On non-Linux systems, Python multiprocessing may not work as expected. You may need to adjust the parallelization strategy yourself. The reference code uses TDMPC2, which typically runs with a relatively small number of parallel environments (e.g. 32), so it is possible to train purely on CPU.
 
-## Important Asset Update
+## Important Update
+
+It is recommended to run uv sync each time you pull updates from GitHub.
+
+Since the LeRobot version has undergone significant changes, we provide a LeRobot branch used by the TAs and have updated the reference for using the LeRobot dataset.
 
 We provide an updated URDF under [`grasp_cube/assets/robots/so101/so101_new`](grasp_cube/assets/robots/so101/so101_new) to address several issues:
 
@@ -27,6 +31,14 @@ If you want to run RL training, install the RL-specific dependencies:
 
 ```bash
 uv pip install -r rl/tdmpc2/requirements.txt
+```
+
+If you want to run LeRobot example, install the dependencies:
+
+```
+git submodule update --init --recursive
+cd external/lerobot
+uv pip install -e .
 ```
 
 ## Getting Started
@@ -130,6 +142,32 @@ Some rough time milestones (for reference, may vary by machine):
 
 - First non-zero success rate around `E ≈ 400`, `I ≈ 20k`, about **10 minutes** of training.
 - Success rate stabilizing above 80% around `E ≈ 4000`, `I ≈ 200k`, about **80 minutes** of training.
+
+## LeRobot Dataset
+
+Download the dataset from Web Learning to your local machine and run the official LeRobot dataset visualization tool:
+
+```
+lerobot-dataset-viz \
+    --repo-id eai/lift \
+    --root ./datasets/lift \
+    --mode local \
+    --episode-index 0
+```
+
+An example output is shown below:
+
+![lerobot\_dataviz](assets/lerobot_dataviz.png)
+
+Running `hello_real_robot.py` allows you to replay real-world trajectories in simulation and outputs the differences between the simulation and the real world. You can use `--help` to see all available commands:
+
+```
+uv run hello_real_robot.py --root ./datasets/lift --episode-index 0
+```
+
+Example result:
+
+![sim\_vs\_real](assets/robot_qpos_comparison.png)
 
 ## Acknowledgement
 

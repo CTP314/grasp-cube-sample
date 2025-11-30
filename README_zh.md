@@ -6,7 +6,11 @@
 - 运动规划：由于运动规划库不兼容所以无法使用，需要自行寻找支持的其他平台的运动规划库替换部分函数
 - RL：非 Linux 系统无法并行可能需要自行调整并行方式，参考代码使用的 TDMPC2 要求环境并行数量较少 (32)，或许可以通过在 CPU 上并行完成训练
 
-## 重要资产更新
+## 更新
+
+建议每次拉去 github 更新时重新 uv sync.
+
+由于 LeRobot 版本变动较大，我们提供了助教使用的 LeRobot 分支并更新了 LeRobot 数据集使用参考。
 
 我们更新了 URDF [so101_new](grasp_cube/assets/robots/so101/so101_new) 主要修复了一下问题：
 - 来源于之前下发的 [so101_old](grasp_cube/assets/robots/so101/so101_old) 的镜像，与真实机器人一致
@@ -24,6 +28,14 @@ uv sync
 
 ```
 uv pip install -r rl/tdmpc2/requirements.txt
+```
+
+如果需要使用 LeRobot, 运行
+
+```
+git submodule update --init --recursive
+cd external/lerobot
+uv pip install -e .
 ```
 
 ## 初步使用
@@ -117,6 +129,31 @@ train   E: 19,968       I: 1,000,000    R: 30.19        S: 0.94         T: 6:55:
 - 第一次有成功率，E, I 大约为 400, 20K 左右，用时 10min
 - 成功率开始稳定在 80% 以上，E, I 大约为 4000, 200K 左右，用时 80 min
 
+## LeRobot Dataset
+
+将 Web Learning 上的数据集下载到本地，运行 LeRobot 官方提供的数据集可视化功能
+
+```
+lerobot-dataset-viz \
+    --repo-id eai/lift \
+    --root ./datasets/lift \
+    --mode local \
+    --episode-index 0
+```
+
+参考结果如下
+
+![lerobot_dataviz](assets/lerobot_dataviz.png)
+
+运行 `hello_real_robot.py` 可以看到现实中轨迹在仿真中的重播效果，并输出仿真和现实世界的差别，具体可以使用 `--help` 查看所有指令。
+
+```
+uv run hello_real_robot.py --root ./datasets/lift --episode-index 0
+```
+
+参考结果
+
+![sim_vs_real](assets/robot_qpos_comparison.png)
 
 # 声明
 

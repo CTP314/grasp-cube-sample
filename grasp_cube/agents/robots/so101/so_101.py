@@ -59,8 +59,8 @@ class SO101(BaseAgent):
             [joint.name for joint in self.robot.active_joints],
             [-0.05, -0.05, -0.05, -0.05, -0.05, -0.2],
             [0.05, 0.05, 0.05, 0.05, 0.05, 0.2],
-            stiffness=[1e3] * 6,
-            damping=[1e2] * 6,
+            stiffness=[1e3] * 5 + [1e2], # smooth the gripper movement
+            damping=[1e2] * 5 + [1e2],
             force_limit=100,
             use_delta=True,
             use_target=False,

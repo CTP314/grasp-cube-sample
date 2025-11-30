@@ -22,7 +22,7 @@ class Args:
     none_actions: bool = False
     zero_actions: bool = False
     sim_freq: int = 100
-    control_freq: int = 20
+    control_freq: int = 30
     seed: Annotated[Optional[int], tyro.conf.arg(aliases=["-s"])] = None
 
 def main(args: Args):
