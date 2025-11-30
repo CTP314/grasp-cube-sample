@@ -103,7 +103,6 @@ class PickCubeSO101Env(BaseEnv):
             initial_pose=sapien.Pose(),
         )
         self._hidden_objects.append(self.goal_site)
-        self.initialize_agent(torch.arange(self.num_envs))
         
     def initialize_agent(self, env_idx: torch.Tensor):
         b = len(env_idx)
